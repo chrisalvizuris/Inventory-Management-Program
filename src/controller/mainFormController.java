@@ -104,18 +104,26 @@ public class mainFormController {
      */
     @FXML
     public void productSearchBoxSelected(ActionEvent searchEvent) throws IOException {
-        String input = productTextBox.getText();
+        try {
+            String input = productTextBox.getText();
 
-        ObservableList<Product> products = Inventory.lookupProduct(input);
+            ObservableList<Product> products = Inventory.lookupProduct(input);
 
-        if (products.size() == 0) {
-            int productID = Integer.parseInt(input);
-            Product product = Inventory.lookupProduct(productID);
-            if (product != null) {
-                products.add(product);
+            if (products.size() == 0) {
+                int productID = Integer.parseInt(input);
+                Product product = Inventory.lookupProduct(productID);
+                if (product != null) {
+                    products.add(product);
+                }
             }
+            productsTableView.setItems(products);
+        }   catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setContentText("Error: We can not find a product that matches your query.");
+            alert.showAndWait();
+            return;
         }
-        productsTableView.setItems(products);
     }
 
     /***
@@ -125,18 +133,26 @@ public class mainFormController {
      */
     @FXML
     public void partSearchBoxSelected(ActionEvent searchEvent) throws IOException {
-        String input = partTextBox.getText();
+        try {
+            String input = partTextBox.getText();
 
-        ObservableList<Part> parts = Inventory.lookupPart(input);
+            ObservableList<Part> parts = Inventory.lookupPart(input);
 
-        if (parts.size() == 0) {
-            int partID = Integer.parseInt(input);
-            Part part = Inventory.lookupPart(partID);
-            if (part != null) {
-                parts.add(part);
+            if (parts.size() == 0) {
+                int partID = Integer.parseInt(input);
+                Part part = Inventory.lookupPart(partID);
+                if (part != null) {
+                    parts.add(part);
+                }
             }
+            partsTableView.setItems(parts);
+        }   catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setContentText("Error: We can not find a part that matches your query.");
+            alert.showAndWait();
+            return;
         }
-        partsTableView.setItems(parts);
     }
 
     /***

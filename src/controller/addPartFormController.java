@@ -80,7 +80,31 @@ public class addPartFormController {
             if (name.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
-                alert.setContentText("Error: The data you entered is invalid. Please review and try again.");
+                alert.setContentText("Error: Please enter a valid name.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (addPartVariableTextField.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a valid machine ID or company name.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (min <= 0 || min > max) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a valid minimum value.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (price <= 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a price that is greater than zero.");
                 alert.showAndWait();
                 return;
             }

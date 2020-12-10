@@ -86,6 +86,30 @@ public class modifyPartFormController {
                 return;
             }
 
+            if (modifyPartVariableTextField.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a valid machine ID or company name.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (price <= 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a price greater than zero.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (min <= 0 || min > max) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a valid minimum value.");
+                alert.showAndWait();
+                return;
+            }
+
             if (modifyPartInHouseRadioButton.isSelected()) {
                 int machineId = Integer.parseInt(modifyPartVariableTextField.getText());
                 Inventory.updatePart(id - 1, new InHouse(id, name, price, stock, min, max, machineId));

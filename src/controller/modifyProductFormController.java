@@ -98,17 +98,25 @@ public class modifyProductFormController {
      */
     @FXML
     public void onActionModifyPartSearchBoxSelected(ActionEvent event) throws IOException {
-        String input = modifyProductSearchPartTextField.getText();
-        ObservableList<Part> parts = Inventory.lookupPart(input);
+        try {
+            String input = modifyProductSearchPartTextField.getText();
+            ObservableList<Part> parts = Inventory.lookupPart(input);
 
-        if (parts.size() == 0) {
-            int partID = Integer.parseInt(input);
-            Part part = Inventory.lookupPart(partID);
-            if (part != null) {
-                parts.add(part);
+            if (parts.size() == 0) {
+                int partID = Integer.parseInt(input);
+                Part part = Inventory.lookupPart(partID);
+                if (part != null) {
+                    parts.add(part);
+                }
             }
+            modifyProductAllPartsTableView.setItems(parts);
+        }   catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setContentText("Error: We can not find a part that matches your query.");
+            alert.showAndWait();
+            return;
         }
-        modifyProductAllPartsTableView.setItems(parts);
     }
 
     /***
@@ -143,10 +151,37 @@ public class modifyProductFormController {
                 return;
             }
 
+            if (price <= 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a price greater than zero.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (min <= 0 || min > max) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: Please enter a valid minimum value.");
+                alert.showAndWait();
+                return;
+            }
+
             Product product = new Product(id, name, price, stock, min, max);
+
+            int count = 0;
 
             for (int i = 0; i < associatedList.size(); i++) {
                 product.addAssociatedPart(associatedList.get(i));
+                count += associatedList.get(i).getPrice();
+            }
+
+            if (product.getPrice() < count) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setContentText("Error: The price of the product must be greater than the total price of its parts.");
+                alert.showAndWait();
+                return;
             }
 
             Inventory.updateProduct(id - 1, product);
@@ -177,6 +212,13 @@ public class modifyProductFormController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setContentText("To add a part, please first select a part you'd like to add from the Parts table.");
+            alert.show();
+            return;
+        }
+        if (associatedList.contains(modifyProductAllPartsTableView.getSelectionModel().getSelectedItem())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setContentText("Error: You can not add the same part twice.");
             alert.show();
             return;
         }
