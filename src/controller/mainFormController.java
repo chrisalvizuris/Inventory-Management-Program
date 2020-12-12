@@ -127,7 +127,10 @@ public class mainFormController {
     }
 
     /***
-     * Filters the Parts Table View for Part name or ID
+     * Filters the Parts Table View for Part name or ID.
+     *
+     * Rubric G: I had trouble getting this to filter properly when I filtered for letters. I realized I needed to add
+     * a user input string as the lookupPart parameter. Once I did this (line 142), it worked.
      * @param searchEvent Created an Action Event for the search filtering to add to search button
      * @throws IOException Throws IOException if method doesn't work
      */

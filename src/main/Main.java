@@ -9,6 +9,17 @@ import model.InHouse;
 import model.Inventory;
 import model.Product;
 
+    /***
+     * Rubric G:
+     * A compatible feature that should be added when I work on the next version of this program will be
+     * adding a database so that I can allow this program to save work once the program is shut off.
+     *
+     * A logical error that I ran into was with my search box (all of them). I couldn't get it to filter for letters.
+     * My issue was that I wasn't using the lookupPart method and including the user input as a parameter. Once I
+     * added the parameter, my search box worked. An example of this search box is in the mainFormController, specifically
+     * for the partSearchBoxSelected ActionEvent.
+     */
+
 public class Main extends Application {
 
     @Override
